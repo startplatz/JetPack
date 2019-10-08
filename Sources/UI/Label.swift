@@ -230,6 +230,21 @@ open class Label: View {
 			setNeedsLayout()
 		}
 	}
+    
+    
+    open var lineHeightMultiple: CGFloat {
+        get { return textLayer.lineHeightMultiple }
+        set {
+            guard newValue != textLayer.lineHeightMultiple else {
+                return
+            }
+
+            textLayer.lineHeightMultiple = newValue
+
+            invalidateIntrinsicContentSize()
+            setNeedsLayout()
+        }
+    }
 
 
 	open override func measureOptimalSize(forAvailableSize availableSize: CGSize) -> CGSize {

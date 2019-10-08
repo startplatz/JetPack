@@ -263,6 +263,15 @@ class TextLayer: Layer {
 			invalidateTextLayout()
 		}
 	}
+    
+    
+    var lineHeightMultiple: CGFloat {
+        get { return configuration.lineHeightMultiple }
+        set {
+            configuration.lineHeightMultiple = newValue
+            checkConfiguration()
+        }
+    }
 
 
 	var minimumLineHeight: CGFloat? {
@@ -448,6 +457,7 @@ class TextLayer: Layer {
 				paragraphStyle.maximumLineHeight = maximumLineHeight
 				paragraphStyle.minimumLineHeight = minimumLineHeight
 				paragraphStyle.paragraphSpacing = paragraphSpacing
+                paragraphStyle.lineHeightMultiple = lineHeightMultiple
 
 				switch lineBreakMode {
 				case .byClipping, .byTruncatingHead, .byTruncatingMiddle, .byTruncatingTail:
@@ -539,6 +549,17 @@ class TextLayer: Layer {
 				}
 			}
 		}
+        
+        
+        var lineHeightMultiple = CGFloat(1) {
+            didSet {
+                precondition(lineHeightMultiple > 0, ".lineHeightMultiple must be > 0")
+
+                if lineHeightMultiple != oldValue {
+                    _finalText = nil
+                }
+            }
+        }
 
 
 		var minimumLineHeight: CGFloat? {

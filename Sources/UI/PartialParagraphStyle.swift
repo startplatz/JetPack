@@ -19,6 +19,7 @@ public struct PartialParagraphStyle {
 	public var paragraphSpacingBefore: CGFloat?
 	public var tabStops: [NSTextTab]?
 	public var tailIndent: CGFloat?
+    public var lineHeightMultiple: CGFloat?
 
 
 	public init(
@@ -37,7 +38,8 @@ public struct PartialParagraphStyle {
 		paragraphSpacing: CGFloat? = nil,
 		paragraphSpacingBefore: CGFloat? = nil,
 		tabStops: [NSTextTab]? = nil,
-		tailIndent: CGFloat? = nil
+		tailIndent: CGFloat? = nil,
+        lineHeightMultiple: CGFloat? = nil
 	) {
 		self.alignment = alignment
 		self.allowsDefaultTighteningForTruncation = allowsDefaultTighteningForTruncation
@@ -55,6 +57,7 @@ public struct PartialParagraphStyle {
 		self.paragraphSpacingBefore = paragraphSpacingBefore
 		self.tabStops = tabStops
 		self.tailIndent = tailIndent
+        self.lineHeightMultiple = lineHeightMultiple
 	}
 
 
@@ -104,6 +107,9 @@ public struct PartialParagraphStyle {
 		if let tailIndent = partialStyle.tailIndent {
 			self.tailIndent = tailIndent
 		}
+        if let lineHeightMultiple = partialStyle.lineHeightMultiple {
+            self.lineHeightMultiple = lineHeightMultiple
+        }
 	}
 }
 
@@ -176,5 +182,8 @@ extension NSMutableParagraphStyle {
 		if let tailIndent = partialStyle.tailIndent {
 			self.tailIndent = tailIndent
 		}
+        if let lineHeightMultiple = partialStyle.lineHeightMultiple {
+            self.lineHeightMultiple = lineHeightMultiple
+        }
 	}
 }
