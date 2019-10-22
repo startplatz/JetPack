@@ -18,7 +18,7 @@ open class View: UIImageView {
 
 	public init() {
 		super.init(frame: .zero)
-
+        isUserInteractionEnabled = true
 		clipsToBounds = true
 		backgroundColor = super.backgroundColor
 
@@ -30,7 +30,7 @@ open class View: UIImageView {
 
 	public required init?(coder: NSCoder) {
 		super.init(coder: coder)
-
+        isUserInteractionEnabled = true
 		backgroundColor = super.backgroundColor
 
 		if let layerBorderColor = layer.borderColor {
