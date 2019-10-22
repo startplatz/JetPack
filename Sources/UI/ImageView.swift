@@ -73,7 +73,7 @@ open class ImageView: View {
 
 
 	fileprivate func computeImageLayerFrame() -> CGRect {
-		guard let image = image else {
+		guard let image = jpImage else {
 			return .zero
 		}
 
@@ -167,7 +167,7 @@ open class ImageView: View {
 
 
 	fileprivate func computeImageLayerTransform() -> CGAffineTransform {
-		guard let image = image else {
+		guard let image = jpImage else {
 			return CGAffineTransform.identity
 		}
 
@@ -218,7 +218,7 @@ open class ImageView: View {
 	}
 
 
-	open var image: UIImage? {
+	open var jpImage: UIImage? {
 		didSet {
 			precondition(!isSettingImage, "Cannot recursively set ImageView's 'image'.")
 			precondition(!isSettingSource || isSettingImageFromSource, "Cannot recursively set ImageView's 'image' and 'source'.")
@@ -226,7 +226,7 @@ open class ImageView: View {
 			isSettingImage = true
 			defer { isSettingImage = false }
 
-			guard image != oldValue || (oldValue == nil && source != nil) else { // TODO what if the current image is set again manually? source should be unset?
+			guard jpImage != oldValue || (oldValue == nil && source != nil) else { // TODO what if the current image is set again manually? source should be unset?
 				return
 			}
 
@@ -240,7 +240,7 @@ open class ImageView: View {
 
 			setNeedsLayout()
 
-			if (image?.size ?? .zero) != (oldValue?.size ?? .zero) {
+			if (jpImage?.size ?? .zero) != (oldValue?.size ?? .zero) {
 				invalidateIntrinsicContentSize()
 			}
 
@@ -295,7 +295,7 @@ open class ImageView: View {
 		imageLayer.bounds = CGRect(size: imageLayerFrame.size)
 		imageLayer.position = imageLayerFrame.center
 
-		if let image = image, image.renderingMode == .alwaysTemplate {
+		if let image = jpImage, image.renderingMode == .alwaysTemplate {
 			let actualImageColor = imageColor.tinted(for: self, dimsWithTint: true)
 			if actualImageColor != lastAppliedImageColor {
 				lastAppliedImageColor = actualImageColor
@@ -307,7 +307,7 @@ open class ImageView: View {
 			colorizedImage = nil
 		}
 
-		if let contentImage = colorizedImage ?? image {
+		if let contentImage = colorizedImage ?? jpImage {
 			imageLayer.contents = contentImage.cgImage
 			imageLayer.contentsScale = contentImage.scale
 			imageLayer.transform = CATransform3DMakeAffineTransform(computeImageLayerTransform())
@@ -340,7 +340,7 @@ open class ImageView: View {
 		let fittingSize: CGSize
 
 		let availableSize = availableSize.inset(by: padding)
-		if availableSize.isPositive, let imageSize = image?.size, imageSize.isPositive {
+		if availableSize.isPositive, let imageSize = jpImage?.size, imageSize.isPositive {
 			let imageRatio = imageSize.width / imageSize.height
 
 			switch scaling {
@@ -449,7 +449,7 @@ open class ImageView: View {
 			precondition(!isSettingSource || isSettingSourceFromImage, "Cannot recursively set ImageView's 'source' and 'image'.")
 
 			if let source = source, let oldSource = oldValue, source.equals(oldSource) {
-				if sourceImageRetrievalCompleted && image == nil {
+				if sourceImageRetrievalCompleted && jpImage == nil {
 					stopSourceSession()
 					startOrUpdateSourceSession()
 
@@ -471,7 +471,7 @@ open class ImageView: View {
 
 			if !isSettingSourceFromImage {
 				isSettingImageFromSource = true
-				image = nil
+				jpImage = nil
 				isSettingImageFromSource = false
 			}
 
@@ -521,7 +521,7 @@ open class ImageView: View {
 					imageView.sourceImageRetrievalCompleted = true
 
 					imageView.isSettingImageFromSource = true
-					imageView.image = image
+					imageView.jpImage = image
 					imageView.isSettingImageFromSource = false
 
 					imageView.updateActivityIndicatorAnimated(true)
@@ -545,7 +545,7 @@ open class ImageView: View {
 				sourceImageRetrievalCompleted = true
 
 				isSettingImageFromSource = true
-				self.image = image
+				self.jpImage = image
 				isSettingImageFromSource = false
 
 				updateActivityIndicatorAnimated(true)

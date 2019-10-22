@@ -108,7 +108,7 @@ open class Button: View {
 			}
 		}
 		else {
-			highlighted = false
+			gpHighlighted = false
 		}
 	}
 
@@ -149,13 +149,13 @@ open class Button: View {
 	}
 
 
-	open var highlighted = false {
+	open var gpHighlighted = false {
 		didSet {
-			guard highlighted != oldValue else {
+			guard gpHighlighted != oldValue else {
 				return
 			}
 
-			var animation: Animation? = highlighted ? nil : Animation(duration: 0.3)
+			var animation: Animation? = gpHighlighted ? nil : Animation(duration: 0.3)
 			animation?.allowsUserInteraction = true
 
 			animation.runAlways {
@@ -260,7 +260,7 @@ open class Button: View {
 		}
 
 		let wantsActivityIndicator = showsActivityIndicatorAsImage
-		let wantsImage = _imageView?.image != nil || _imageView?.source != nil
+		let wantsImage = _imageView?.jpImage != nil || _imageView?.source != nil
 		let wantsText = !(_textLabel?.text.isEmpty ?? true)
 
 		// step 1: show/hide views
@@ -683,7 +683,7 @@ open class Button: View {
 		let availableSize = availableSize.inset(by: padding)
 
 		let wantsActivityIndicator = showsActivityIndicatorAsImage
-		let wantsImage = (_imageView?.image != nil || _imageView?.source != nil)
+		let wantsImage = (_imageView?.jpImage != nil || _imageView?.source != nil)
 		let wantsText = !(_textLabel?.text.isEmpty ?? true)
 
 		// lazy initialization
@@ -863,11 +863,11 @@ open class Button: View {
 		}
 
 		if let touch = touches.first, touchIsAcceptableForTap(touch, event: event) {
-			highlighted = true
+			gpHighlighted = true
 			highlightingTouch = touch
 		}
 		else {
-			highlighted = false
+			gpHighlighted = false
 		}
 	}
 
@@ -878,7 +878,7 @@ open class Button: View {
 			return
 		}
 
-		highlighted = false
+		gpHighlighted = false
 	}
 
 
@@ -888,7 +888,7 @@ open class Button: View {
 			return
 		}
 
-		highlighted = false
+		gpHighlighted = false
 
 		if enabled, let tapped = tapped, let touch = touches.first, touchIsAcceptableForTap(touch, event: event) {
 			tapped()
@@ -903,10 +903,10 @@ open class Button: View {
 		}
 
 		if let touch = touches.first, touchIsAcceptableForTap(touch, event: event) {
-			highlighted = true
+			gpHighlighted = true
 		}
 		else {
-			highlighted = false
+			gpHighlighted = false
 		}
 	}
 	
@@ -916,7 +916,7 @@ open class Button: View {
 		if !enabled, let disabledAlpha = disabledAlpha {
 			alpha = disabledAlpha
 		}
-		else if highlighted, let highlightedAlpha = highlightedAlpha {
+		else if gpHighlighted, let highlightedAlpha = highlightedAlpha {
 			alpha = highlightedAlpha
 		}
 		else {
@@ -932,7 +932,7 @@ open class Button: View {
 		if !enabled, let disabledBackgroundColor = disabledBackgroundColor {
 			backgroundColor = disabledBackgroundColor
 		}
-		else if highlighted, let highlightedBackgroundColor = highlightedBackgroundColor {
+		else if gpHighlighted, let highlightedBackgroundColor = highlightedBackgroundColor {
 			backgroundColor = highlightedBackgroundColor
 		}
 		else {
@@ -945,7 +945,7 @@ open class Button: View {
 
 	private func updateBorderColor() {
 		let borderColor: UIColor?
-		if highlighted, let highlightedBorderColor = highlightedBorderColor {
+		if gpHighlighted, let highlightedBorderColor = highlightedBorderColor {
 			borderColor = highlightedBorderColor
 		}
 		else {
@@ -965,7 +965,7 @@ open class Button: View {
 
 	private func updateTintColor() {
 		let tintColor: UIColor?
-		if highlighted, let highlightedTintColor = highlightedTintColor {
+		if gpHighlighted, let highlightedTintColor = highlightedTintColor {
 			tintColor = highlightedTintColor
 		}
 		else {

@@ -2,7 +2,7 @@ import UIKit
 
 
 @objc(JetPack_View)
-open class View: UIView {
+open class View: UIImageView {
 
 	private static let _dummyView = View()
 
@@ -10,6 +10,7 @@ open class View: UIView {
 	private var normalBorderColor: UIColor?
 
 	open var additionalHitZone = UIEdgeInsets() // TODO don't use UIEdgeInsets because actually we outset
+    
 	open var backgroundColorLocked = false
 	open var hitZoneFollowsCornerRadius = true
 	open var isUserInteractionLimitedToSubviews = false
