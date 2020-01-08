@@ -221,7 +221,6 @@ open class WebViewController: ViewController, KeyValueObserver, WKNavigationDele
 	open override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		if let request = loadRequest() {
-			self.initialUrl = nil
 
 			if webView.url == nil && !webView.isLoading {
 				let navigation = webView.load(request)
@@ -241,8 +240,10 @@ open class WebViewController: ViewController, KeyValueObserver, WKNavigationDele
     
     private func loadRequest() -> URLRequest? {
         if let initialUrl = initialUrl {
+            self.initialUrl = nil
             return .init(url: initialUrl)
         }
+        initialRequest = nil
         return initialRequest
     }
     
