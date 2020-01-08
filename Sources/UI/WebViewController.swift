@@ -243,8 +243,11 @@ open class WebViewController: ViewController, KeyValueObserver, WKNavigationDele
             self.initialUrl = nil
             return .init(url: initialUrl)
         }
-        initialRequest = nil
-        return initialRequest
+        if let initialRequest = initialRequest {
+            self.initialRequest = nil
+            return initialRequest
+        }
+        return nil
     }
     
     open func initial(with url: URL?) {
