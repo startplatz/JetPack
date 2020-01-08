@@ -12,7 +12,8 @@ open class WebViewController: ViewController, KeyValueObserver, WKNavigationDele
 
 	public let configuration: WKWebViewConfiguration
 
-	open var initialUrl: URL?
+	private var initialUrl: URL?
+    private var initialRequest: URLRequest?
 	open var opensLinksExternally = false
 
 
@@ -219,12 +220,11 @@ open class WebViewController: ViewController, KeyValueObserver, WKNavigationDele
 
 	open override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-
-		if let initialUrl = initialUrl {
+		if let request = loadRequest() {
 			self.initialUrl = nil
 
 			if webView.url == nil && !webView.isLoading {
-				let navigation = webView.load(URLRequest(url: initialUrl))
+				let navigation = webView.load(request)
 				if navigation != nil {
 					initialLoadingCompleted = false
 
@@ -238,6 +238,21 @@ open class WebViewController: ViewController, KeyValueObserver, WKNavigationDele
 			}
 		}
 	}
+    
+    private func loadRequest() -> URLRequest? {
+        if let initialUrl = initialUrl {
+            return .init(url: initialUrl)
+        }
+        return initialRequest
+    }
+    
+    open func initial(with url: URL?) {
+        self.initialUrl = url
+    }
+    
+    open func initial(with request: URLRequest) {
+        self.initialRequest = request
+    }
 
 
 	open fileprivate(set) lazy var webView: WKWebView = self.createWebView()
