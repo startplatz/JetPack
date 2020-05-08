@@ -261,6 +261,15 @@ open class WebViewController: ViewController, KeyValueObserver, WKNavigationDele
 
 	open fileprivate(set) lazy var webView: WKWebView = self.createWebView()
 
+    public func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if let frame = navigationAction.targetFrame,
+            frame.isMainFrame {
+            return nil
+        }
+        // for _blank target or non-mainFrame target
+        webView.load(navigationAction.request)
+        return nil
+    }
 
 	open func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
 		if navigationAction.navigationType == .linkActivated, let url = navigationAction.request.url {
